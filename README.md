@@ -12,3 +12,4 @@
 ## 👨‍👨‍👦‍👦 Collaborators - Ho Chi Minh City University of Food Industry (HUFI)
 1. Đặng Vũ Gia Huy
 2. Lê Văn Thắng
+3. Lê Hồ Hoàng Linh
