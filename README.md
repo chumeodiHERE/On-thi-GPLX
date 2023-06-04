@@ -13,4 +13,4 @@
 1. Đặng Vũ Gia Huy
 2. Lê Văn Thắng
 3. Lê Hồ Hoàng Linh
-4. Hoang  Minh  Long
+4. Hoàng  Minh  Long
