@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/previous_ques"
+        android:icon="@drawable/baseline_keyboard_arrow_left_24"
+        android:title=" "
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/home_screen"
+        android:icon="@drawable/baseline_home_24"
+        android:title=" "
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/next_ques"
+        android:icon="@drawable/baseline_keyboard_arrow_right_24"
+        android:title=" "
+        app:showAsAction="always" />
+</menu>
