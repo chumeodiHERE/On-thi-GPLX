@@ -41,8 +41,8 @@ public class TestQuestionsActivity extends AppCompatActivity {
     private long timeLeftInMillis;
     private int questionCounter;
     private int questionSize;
-
     private float  Score;
+    private float ScorePerQues;
     private Boolean answered;
 
     private int count =0;
@@ -64,6 +64,7 @@ public class TestQuestionsActivity extends AppCompatActivity {
         helper = new DbHelper(TestQuestionsActivity.this);
         list =helper.getQuestions(categoryID);
         questionSize = list.size();
+        ScorePerQues = 100 / questionSize;
         Collections.shuffle(list);
 
         showNextQuestion();
@@ -135,28 +136,25 @@ public class TestQuestionsActivity extends AppCompatActivity {
         RadioButton rbSelected = findViewById(rbGroup.getCheckedRadioButtonId());
         int answer = rbGroup.indexOfChild(rbSelected)+1;
         if(answer == thiTracNghiem.getAnswer()){
-            Score = (float) (Score +0.4);
-            textViewCountDown.setText("Điểm : "+Score);
+            Score = (float) (Score + ScorePerQues);
+            textViewScore.setText("Điểm : " + Score);
         }
         showSolution();
     }
 
     private void showSolution() {
-        rb1.setTextColor(Color.RED);
-        rb2.setTextColor(Color.RED);
-        rb3.setTextColor(Color.RED);
+        rb1.setTextColor(getColor(R.color.false_answer));
+        rb2.setTextColor(getColor(R.color.false_answer));
+        rb3.setTextColor(getColor(R.color.false_answer));
         switch(thiTracNghiem.getAnswer()){
             case 1:
-                rb1.setTextColor(Color.GREEN);
-                textViewQuestion.setText("Đáp án đúng");
+                rb1.setTextColor(getColor(R.color.true_answer));
                 break;
             case 2:
-                rb2.setTextColor(Color.GREEN);
-                textViewQuestion.setText("Đáp án đúng");
+                rb2.setTextColor(getColor(R.color.true_answer));
                 break;
             case 3:
-                rb3.setTextColor(Color.GREEN);
-                textViewQuestion.setText("Đáp án đúng");
+                rb3.setTextColor(getColor(R.color.true_answer));
                 break;
         }
         if(questionCounter<questionSize){
@@ -208,6 +206,6 @@ public class TestQuestionsActivity extends AppCompatActivity {
         rb2 = findViewById(R.id.radio_button2);
         rb3 = findViewById(R.id.radio_button3);
 
-        buttonNext = findViewById(R.id.button_confim_next);
+        buttonNext = findViewById(R.id.button_confirm_next);
     }
 }

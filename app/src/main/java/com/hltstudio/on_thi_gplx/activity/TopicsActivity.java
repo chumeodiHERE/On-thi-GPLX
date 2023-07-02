@@ -94,7 +94,7 @@ public class TopicsActivity extends AppCompatActivity {
 
     private void updatehighScore(float score) {
         highScore = score;
-        textViewHighScore.setText("Điểm cao nhất : "+highScore);
+        textViewHighScore.setText("Điểm cao nhất : "+ highScore);
 
         SharedPreferences preferences = getSharedPreferences("share",MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
