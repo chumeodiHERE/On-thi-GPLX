@@ -1,15 +1,21 @@
 package com.hltstudio.on_thi_gplx.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.hltstudio.on_thi_gplx.R;
@@ -101,6 +107,40 @@ public class TopicsActivity extends AppCompatActivity {
 
         editor.putFloat("highScore",highScore);
         editor.apply();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.option_menu_thi, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.thiInfo) {
+//            new AlertDialog.Builder(TopicsActivity.this)
+//                    .setTitle("Hướng dẫn làm bài thi")
+//                    .setMessage("Đề thi bằng lái hạng A1 bao gồm 25 câu hỏi. Thời gian làm bài 20 phút.\n\n" +
+//                            "Mỗi đề thi đều có câu hỏi điểm liệt, nếu bạn chỉ cần trả lời sai câu hỏi điểm liệt thì sẽ bị trượt.\n\n" +
+//                            "Để vượt qua bài thi, bạn cần phải trả lời đúng 23/25 câu hỏi và không sai câu điểm liệt nào.")
+//
+//                    // Specifying a listener allows you to take an action before dismissing the dialog.
+//                    // The dialog is automatically dismissed when a dialog button is clicked.
+//                    .setPositiveButton("ĐÃ HIỂU", new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int which) {}
+//                    })
+//                    .show();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            final View customLayout = getLayoutInflater().inflate(R.layout.custom_thi_info_layout, null);
+            builder.setView(customLayout);
+            builder.setPositiveButton("ĐÃ HIỂU", (dialog, which) -> {});
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
