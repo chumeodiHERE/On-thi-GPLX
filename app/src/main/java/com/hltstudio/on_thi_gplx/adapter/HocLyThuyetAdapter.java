@@ -16,30 +16,22 @@ import com.hltstudio.on_thi_gplx.R;
 import com.hltstudio.on_thi_gplx.utilities.DbHelper;
 import com.hltstudio.on_thi_gplx.model.GroupQuestion;
 import com.hltstudio.on_thi_gplx.model.Question;
+import com.hltstudio.on_thi_gplx.utilities.imageConverter;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class HocLyThuyetAdapter extends BaseAdapter {
+public class HocLyThuyetAdapter extends BaseAdapter
+{
     Context context;
     ArrayList<GroupQuestion>list;
+    imageConverter converter;
 
-
-    public HocLyThuyetAdapter(Context context, ArrayList<GroupQuestion> list) {
+    public HocLyThuyetAdapter(Context context, ArrayList<GroupQuestion> list)
+    {
         this.context = context;
         this.list = list;
-    }
-
-
-    public Bitmap convertStringToBitmapFromAccess(String filename){
-        AssetManager assetManager = context.getAssets();
-        try {
-            InputStream is = assetManager.open(filename); Bitmap bitmap = BitmapFactory.decodeStream(is); return bitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     @Override
@@ -58,10 +50,12 @@ public class HocLyThuyetAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(int i, View view, ViewGroup viewGroup)
+    {
         view = LayoutInflater.from(context).inflate(R.layout.layout_row_hoc_ly_thuyet, viewGroup,false);
         GroupQuestion question = list.get(i);
         DbHelper helper = new DbHelper(context);
+        converter = new imageConverter(question.getIMAGENAME());
         ArrayList<Question> listQuest = helper.getQuestionWithGQId(question.getID());
         ArrayList<Question> listQuestIsDone = helper.getQuestionIsDoneWithGQId(question.getID());
 
@@ -72,7 +66,7 @@ public class HocLyThuyetAdapter extends BaseAdapter {
         TextView txtNumbQuestIsDone = view.findViewById(R.id.txtNumbQuestIsDone);
         ProgressBar progress_question = view.findViewById(R.id.progress_question);
 
-        imgQuestionGroup.setImageBitmap(convertStringToBitmapFromAccess(question.getIMAGENAME()));
+        imgQuestionGroup.setImageBitmap(converter.imageConverted());
         txtNameQuestionGroup.setText(question.getNAME());
         txtNumberQuestion.setText("Gồm " + listQuest.size() + " câu hỏi");
         txtNumbQuestIsDone.setText(listQuestIsDone.size() + " ");

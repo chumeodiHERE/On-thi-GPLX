@@ -18,15 +18,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hltstudio.on_thi_gplx.R;
 import com.hltstudio.on_thi_gplx.model.Meo;
 import com.hltstudio.on_thi_gplx.model.RoadSign;
+import com.hltstudio.on_thi_gplx.utilities.imageConverter;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-public class BienBaoAdapter extends RecyclerView.Adapter<BienBaoAdapter.BienBaoViewHolder>{
+public class BienBaoAdapter extends RecyclerView.Adapter<BienBaoAdapter.BienBaoViewHolder>
+{
 
     List<RoadSign> list;
     Context context;
+    imageConverter converter;
 
     public BienBaoAdapter(List<RoadSign> list, Context context) {
         this.list = list;
@@ -43,9 +46,10 @@ public class BienBaoAdapter extends RecyclerView.Adapter<BienBaoAdapter.BienBaoV
     @Override
     public void onBindViewHolder(@NonNull BienBaoViewHolder holder, int position) {
         RoadSign roadSign = list.get(position);
+        converter = new imageConverter(roadSign.getIMAGENAME());
         holder.txtRoadSignName.setText(roadSign.getNAME());
         holder.txtRoadSignDescription.setText(roadSign.getDESCRIPTION());
-        holder.imgRoadSign.setImageBitmap(convertStringToBitmapFromAccess(roadSign.getIMAGENAME()));
+        holder.imgRoadSign.setImageBitmap(converter.imageConverted());
     }
 
     @Override
@@ -64,15 +68,5 @@ public class BienBaoAdapter extends RecyclerView.Adapter<BienBaoAdapter.BienBaoV
             txtRoadSignDescription = itemView.findViewById(R.id.txtRoadSignDescription);
             imgRoadSign = itemView.findViewById(R.id.imgRoadSign);
         }
-    }
-
-    public Bitmap convertStringToBitmapFromAccess(String filename){
-        AssetManager assetManager = context.getAssets();
-        try {
-            InputStream is = assetManager.open(filename); Bitmap bitmap = BitmapFactory.decodeStream(is); return bitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

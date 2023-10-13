@@ -21,12 +21,14 @@ import com.hltstudio.on_thi_gplx.adapter.AnswerAdapter;
 import com.hltstudio.on_thi_gplx.utilities.DbHelper;
 import com.hltstudio.on_thi_gplx.model.Answer;
 import com.hltstudio.on_thi_gplx.model.Question;
+import com.hltstudio.on_thi_gplx.utilities.imageConverter;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class HocLyThuyetDetailActivity extends AppCompatActivity {
+public class HocLyThuyetDetailActivity extends AppCompatActivity
+{
 
     ArrayList<Answer> answerArrayList;
     ArrayList<Question> questionArrayList;
@@ -35,10 +37,12 @@ public class HocLyThuyetDetailActivity extends AppCompatActivity {
     DbHelper dbHelper;
     TextView tvQuestion, tvExplain, tvTitle;
     ImageView img_question;
+    imageConverter converter;
     BottomNavigationView navigation;
     int index = 0;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hoc_ly_thuyet_detail);
         overridePendingTransition(R.anim.slide_in, 0);
@@ -47,8 +51,8 @@ public class HocLyThuyetDetailActivity extends AppCompatActivity {
 
         AnhXa();
         Intent it = getIntent();
-        String namegroup = it.getStringExtra("GroupName");
-        setTitle(namegroup);
+        String groupName = it.getStringExtra("GroupName");
+        setTitle(groupName);
         int idgroup = it.getIntExtra("IDGroup", 0);
 
 
@@ -57,11 +61,13 @@ public class HocLyThuyetDetailActivity extends AppCompatActivity {
         loadQuestion(index);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        public boolean onNavigationItemSelected(@NonNull MenuItem item)
+        {
             switch (item.getItemId()) {
                 case R.id.previous_ques:
                     if(index == 0) {
@@ -90,7 +96,8 @@ public class HocLyThuyetDetailActivity extends AppCompatActivity {
         }
     };
 
-    private void loadQuestion(int i) {
+    private void loadQuestion(int i)
+    {
         Question qes = questionArrayList.get(i);
 
         tvTitle.setVisibility(View.GONE);
@@ -98,8 +105,9 @@ public class HocLyThuyetDetailActivity extends AppCompatActivity {
 
         if(qes.getIMAGENAME() != null)
         {
+            converter = new imageConverter(qes.getIMAGENAME());
             img_question.setVisibility(View.VISIBLE);
-            img_question.setImageBitmap(convertStringToBitmapFromAccess(qes.getIMAGENAME()));
+            img_question.setImageBitmap(converter.imageConverted());
         }
 
         tvQuestion.setText(qes.getTITLE());
@@ -153,16 +161,12 @@ public class HocLyThuyetDetailActivity extends AppCompatActivity {
                     dbHelper.setDoneQuestion(idqes);
                     loadQuestion(index);
                 }
-
-
-//                dbHelper.QueryData("Update QUESTION Set STATUS = 'true' where ID = " + idqes);
-//                dbHelper.QueryData("Update ANSWER Set ISCHOOSE = 'false' where QUESTIONID = " + answer.getQUESTIONID());
-//                dbHelper.QueryData("Update ANSWER Set ISCHOOSE = 'true' where ID = " + answer.getID() + " and QUESTIONID = " + answer.getQUESTIONID());
             }
         });
     }
 
-    private void AnhXa() {
+    private void AnhXa()
+    {
         dbHelper = new DbHelper(getApplicationContext());
         listView = (ListView) findViewById(R.id.lvAnswer);
         tvQuestion = (TextView) findViewById(R.id.tvQuestion);
@@ -172,18 +176,9 @@ public class HocLyThuyetDetailActivity extends AppCompatActivity {
         tvTitle = (TextView) findViewById(R.id.tvTitle);
     }
 
-    public Bitmap convertStringToBitmapFromAccess(String filename){
-        AssetManager assetManager = getApplicationContext().getAssets();
-        try {
-            InputStream is = assetManager.open(filename); Bitmap bitmap = BitmapFactory.decodeStream(is); return bitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     @Override
-    public boolean onSupportNavigateUp() {
+    public boolean onSupportNavigateUp()
+    {
         finish();
         overridePendingTransition(R.anim.slide_back_in, R.anim.slide_back);
         return true;
