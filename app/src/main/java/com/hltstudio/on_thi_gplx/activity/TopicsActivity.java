@@ -1,6 +1,5 @@
 package com.hltstudio.on_thi_gplx.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,7 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.hltstudio.on_thi_gplx.R;
-import com.hltstudio.on_thi_gplx.controller.DbHelper;
+import com.hltstudio.on_thi_gplx.utilities.DbHelper;
 import com.hltstudio.on_thi_gplx.model.Topics;
 
 import java.util.List;
@@ -59,7 +58,7 @@ public class TopicsActivity extends AppCompatActivity {
     private void loadHighScore() {
         SharedPreferences preferences = getSharedPreferences("share",MODE_PRIVATE);
         highScore = preferences.getFloat("highScore",0);
-        textViewHighScore.setText("Điểm cao nhất : "+ highScore);
+        textViewHighScore.setText("Điểm cao nhất : " + highScore);
     }
 
     private void starQuestion() {
@@ -120,19 +119,6 @@ public class TopicsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.thiInfo) {
-//            new AlertDialog.Builder(TopicsActivity.this)
-//                    .setTitle("Hướng dẫn làm bài thi")
-//                    .setMessage("Đề thi bằng lái hạng A1 bao gồm 25 câu hỏi. Thời gian làm bài 20 phút.\n\n" +
-//                            "Mỗi đề thi đều có câu hỏi điểm liệt, nếu bạn chỉ cần trả lời sai câu hỏi điểm liệt thì sẽ bị trượt.\n\n" +
-//                            "Để vượt qua bài thi, bạn cần phải trả lời đúng 23/25 câu hỏi và không sai câu điểm liệt nào.")
-//
-//                    // Specifying a listener allows you to take an action before dismissing the dialog.
-//                    // The dialog is automatically dismissed when a dialog button is clicked.
-//                    .setPositiveButton("ĐÃ HIỂU", new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int which) {}
-//                    })
-//                    .show();
-
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             final View customLayout = getLayoutInflater().inflate(R.layout.custom_thi_info_layout, null);
             builder.setView(customLayout);

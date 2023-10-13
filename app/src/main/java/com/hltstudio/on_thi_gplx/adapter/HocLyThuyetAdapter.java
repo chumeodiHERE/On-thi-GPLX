@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.hltstudio.on_thi_gplx.R;
-import com.hltstudio.on_thi_gplx.controller.DbHelper;
+import com.hltstudio.on_thi_gplx.utilities.DbHelper;
 import com.hltstudio.on_thi_gplx.model.GroupQuestion;
 import com.hltstudio.on_thi_gplx.model.Question;
 

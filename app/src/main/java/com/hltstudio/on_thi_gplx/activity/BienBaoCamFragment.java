@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hltstudio.on_thi_gplx.R;
 import com.hltstudio.on_thi_gplx.adapter.BienBaoAdapter;
-import com.hltstudio.on_thi_gplx.controller.DbHelper;
+import com.hltstudio.on_thi_gplx.utilities.DbHelper;
 import com.hltstudio.on_thi_gplx.model.RoadSign;
 
 import java.util.List;

@@ -1,35 +1,83 @@
-package com.hltstudio.on_thi_gplx.controller;
+package com.hltstudio.on_thi_gplx.utilities;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 import com.hltstudio.on_thi_gplx.model.Answer;
 import com.hltstudio.on_thi_gplx.model.GroupQuestion;
 import com.hltstudio.on_thi_gplx.model.Question;
 import com.hltstudio.on_thi_gplx.model.RoadSign;
-import com.hltstudio.on_thi_gplx.model.RoadSignGroup;
 import com.hltstudio.on_thi_gplx.model.TESTQUESTIONS;
 import com.hltstudio.on_thi_gplx.model.Topics;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DbHelper {
     Context context;
-    public static final String dbName = "GPLX.db";
+    private final String dbName = "GPLX.db";
+    private final String DB_PATH = "/databases/";
+
     public DbHelper(Context context) {
         this.context = context;
     }
+
     private SQLiteDatabase openDB() {
         return context.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
     }
+
     private void closeDB(SQLiteDatabase db) {
         db.close();
     }
 
+    private String getDatabasePath() {
+        return context.getApplicationInfo().dataDir + DB_PATH + dbName;
+    }
+
+    private void copyDatabaseFromAssets() {
+        try
+        {
+            InputStream myInput;
+            //Lấy database đưa vào myInput
+            myInput = context.getAssets().open(dbName);
+            //Lấy đường dẫn lưu trữ để đưa myInput vào
+            String outFileName = getDatabasePath();
+
+            File f = new File(context.getApplicationInfo().dataDir + DB_PATH);
+            if (!f.exists())
+                f.mkdir();
+            //mở CSDL rỗng InputStream
+            //myOutput để tương tác với CSDL
+            OutputStream myOutput = new FileOutputStream(outFileName);
+            //Sao chép CSDL từ myInput vào myOutput
+            int size = myInput.available();
+            byte[] buffer = new byte[size];
+            myInput.read(buffer);
+            //ghi vào myOutput
+            myOutput.write(buffer);
+            //làm rỗng file myOutput
+            myOutput.flush();
+            //Đóng các file myOutput, myInput
+            myOutput.close();
+            myInput.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void initDatabase() {
+        File dbFile = context.getDatabasePath(dbName);
+        if(!dbFile.exists())
+        {
+            copyDatabaseFromAssets();
+        }
+    }
 
     public ArrayList<RoadSign> getRSWithRSID(int RSGID)
     {
@@ -177,18 +225,21 @@ public class DbHelper {
         db.execSQL("Update QUESTION Set STATUS = 'true' where ID = " + questionid);
         closeDB(db);
     }
+
     public void setFalseAllAnswer(int idQuestion)
     {
         SQLiteDatabase db = openDB();
         db.execSQL("Update ANSWER Set ISCHOOSE = 'false' where QUESTIONID = " + idQuestion);
         closeDB(db);
     }
+
     public void setIsChooseAnswer(int idAnswer, int idQuestion)
     {
         SQLiteDatabase db = openDB();
         db.execSQL("Update ANSWER Set ISCHOOSE = 'true' where ID = " + idAnswer + " and QUESTIONID = " + idQuestion);
         closeDB(db);
     }
+
     public void changeTruetoFalseQues(int idQuestion)
     {
         SQLiteDatabase db = openDB();
@@ -196,6 +247,7 @@ public class DbHelper {
         closeDB(db);
         closeDB(db);
     }
+
     public void changeTruetoFalseAnsw(int idAnswer)
     {
         SQLiteDatabase db = openDB();
@@ -203,7 +255,8 @@ public class DbHelper {
         closeDB(db);
     }
 
-    public List<Topics> getDataCategory(){
+    public List<Topics> getDataCategory()
+    {
         SQLiteDatabase db = openDB();
         List<Topics> list = new ArrayList<>();
         String sql = "Select * from TOPICS";
@@ -219,7 +272,8 @@ public class DbHelper {
         return list;
     }
 
-    public ArrayList<TESTQUESTIONS> getQuestions(int ID){
+    public ArrayList<TESTQUESTIONS> getQuestions(int ID)
+    {
         ArrayList<TESTQUESTIONS> arr = new ArrayList<>();
         String sql = "Select * from TESTQUESTIONS where ID_TOPICS = " + ID;
         SQLiteDatabase db = openDB();
