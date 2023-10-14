@@ -3,13 +3,15 @@ package com.hltstudio.on_thi_gplx.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Meo {
+public class Meo
+{
 
     private String tenMeo;
     private String noiDung;
     private boolean expandable;
 
-    public Meo(String tenMeo, String noiDung) {
+    public Meo(String tenMeo, String noiDung)
+    {
         this.tenMeo = tenMeo;
         this.noiDung = noiDung;
         this.expandable = false;
@@ -39,7 +41,8 @@ public class Meo {
         this.expandable = expandable;
     }
 
-    public static List<Meo> initMeoLyThuyet() {
+    public static List<Meo> initMeoLyThuyet()
+    {
         List<Meo> meos = new ArrayList<>();
         meos.add(new Meo("Khái niệm và quy tắc",
                 "1. Câu khái niệm \"Phương tiện giao thông cơ giới đường bộ\" chọn \"Kể cả xe máy điện\".\n" +
@@ -58,7 +61,8 @@ public class Meo {
         return meos;
     }
 
-    public static List<Meo> initMeoThucHanh() {
+    public static List<Meo> initMeoThucHanh()
+    {
         List<Meo> meos = new ArrayList<>();
         meos.add(new Meo("Giới thiệu",
                 "1. Câu khái niệm \"Phương tiện giao thông cơ giới đường bộ\" chọn \"Kể cả xe máy điện\".\n" +

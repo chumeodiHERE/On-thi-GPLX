@@ -23,7 +23,8 @@ import com.hltstudio.on_thi_gplx.model.Topics;
 
 import java.util.List;
 
-public class TopicsActivity extends AppCompatActivity {
+public class TopicsActivity extends AppCompatActivity
+{
 
     private float highScore;
     private TextView textViewHighScore;
@@ -35,7 +36,8 @@ public class TopicsActivity extends AppCompatActivity {
     private ArrayAdapter<Topics> adapter;
     private Topics topics;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topics);
         setTitle("Thi thử");
@@ -47,7 +49,8 @@ public class TopicsActivity extends AppCompatActivity {
 
         loadCategory();
         loadHighScore();
-        buttonStartQuestion.setOnClickListener(new View.OnClickListener() {
+        buttonStartQuestion.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view) {
                 starQuestion();
@@ -55,13 +58,15 @@ public class TopicsActivity extends AppCompatActivity {
         });
     }
 
-    private void loadHighScore() {
+    private void loadHighScore()
+    {
         SharedPreferences preferences = getSharedPreferences("share",MODE_PRIVATE);
         highScore = preferences.getFloat("highScore",0);
         textViewHighScore.setText("Điểm cao nhất : " + highScore);
     }
 
-    private void starQuestion() {
+    private void starQuestion()
+    {
         topics = (Topics) spinnerCategory.getSelectedItem();
         int ID = topics.getId();
         String Name = topics.getName();
@@ -72,12 +77,14 @@ public class TopicsActivity extends AppCompatActivity {
         startActivityForResult(intent,REQUEST_CODE_QUESTION);
     }
 
-    private void init(){
+    private void init()
+    {
         textViewHighScore = findViewById(R.id.textview_high_score);
         buttonStartQuestion = findViewById(R.id.button_start_question);
         spinnerCategory = findViewById(R.id.spinner_categorycategory);
     }
-    private void loadCategory(){
+    private void loadCategory()
+    {
         helper = new DbHelper(TopicsActivity.this);
         list = helper.getDataCategory();
         adapter = new ArrayAdapter<>(TopicsActivity.this, android.R.layout.simple_spinner_item,list);
@@ -85,7 +92,8 @@ public class TopicsActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE_QUESTION){
             if(resultCode == RESULT_OK){
@@ -97,7 +105,8 @@ public class TopicsActivity extends AppCompatActivity {
         }
     }
 
-    private void updatehighScore(float score) {
+    private void updatehighScore(float score)
+    {
         highScore = score;
         textViewHighScore.setText("Điểm cao nhất : "+ highScore);
 
@@ -109,7 +118,8 @@ public class TopicsActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.option_menu_thi, menu);
 
@@ -117,10 +127,12 @@ public class TopicsActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.thiInfo) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
+        if (item.getItemId() == R.id.thiInfo)
+        {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            final View customLayout = getLayoutInflater().inflate(R.layout.custom_thi_info_layout, null);
+            final View customLayout = getLayoutInflater().inflate(R.layout.alert_dialog_thi_info_layout, null);
             builder.setView(customLayout);
             builder.setPositiveButton("ĐÃ HIỂU", (dialog, which) -> {});
             AlertDialog dialog = builder.create();
@@ -130,7 +142,8 @@ public class TopicsActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
+    public boolean onSupportNavigateUp()
+    {
         finish();
         overridePendingTransition(R.anim.slide_back_in, R.anim.slide_back);
         return true;

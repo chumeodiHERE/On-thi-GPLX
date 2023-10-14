@@ -19,7 +19,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DbHelper {
+public class DbHelper
+{
     Context context;
     private final String dbName = "GPLX.db";
     private final String DB_PATH = "/databases/";
@@ -28,7 +29,8 @@ public class DbHelper {
         this.context = context;
     }
 
-    private SQLiteDatabase openDB() {
+    private SQLiteDatabase openDB()
+    {
         return context.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
     }
 
@@ -36,11 +38,13 @@ public class DbHelper {
         db.close();
     }
 
-    private String getDatabasePath() {
+    private String getDatabasePath()
+    {
         return context.getApplicationInfo().dataDir + DB_PATH + dbName;
     }
 
-    private void copyDatabaseFromAssets() {
+    public void copyDatabaseFromAssets()
+    {
         try
         {
             InputStream myInput;
@@ -71,7 +75,8 @@ public class DbHelper {
         }
     }
 
-    public void initDatabase() {
+    public void initDatabase()
+    {
         File dbFile = context.getDatabasePath(dbName);
         if(!dbFile.exists())
         {
