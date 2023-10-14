@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case "Thi thử\n":
-                        intent = new Intent(MainActivity.this, TopicsActivity.class);
+                        intent = new Intent(MainActivity.this, ThiThuActivity.class);
                         startActivity(intent);
                         break;
                     default:

@@ -16,12 +16,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.hltstudio.on_thi_gplx.R;
 import com.hltstudio.on_thi_gplx.utilities.DbHelper;
 import com.hltstudio.on_thi_gplx.model.TESTQUESTIONS;
+import com.hltstudio.on_thi_gplx.utilities.ScoreTestHolder;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 
-public class TestQuestionsActivity extends AppCompatActivity {
+public class TestQuestionsActivity extends AppCompatActivity
+{
 
     private TextView textViewQuestion;
     private TextView textViewScore;
@@ -41,28 +43,28 @@ public class TestQuestionsActivity extends AppCompatActivity {
     private long timeLeftInMillis;
     private int questionCounter;
     private int questionSize;
-    private float  Score;
-    private float ScorePerQues;
+    public int  Score;
+    private int ScorePerQues;
     private Boolean answered;
-
-    private int count =0;
     private DbHelper helper;
     private TESTQUESTIONS thiTracNghiem;
+    public int categoryID;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_questions);
 
         init();
 
         Intent intent = getIntent();
-        int categoryID= intent.getIntExtra("Id",0);
+        categoryID = intent.getIntExtra("Id",0);
         String categoryName = intent.getStringExtra("Name");
 
-        textViewCategory.setText("Bộ đề : " + categoryName);
+        textViewCategory.setText(categoryName);
 
         helper = new DbHelper(TestQuestionsActivity.this);
-        list =helper.getQuestions(categoryID);
+        list = helper.getQuestions(categoryID);
         questionSize = list.size();
         ScorePerQues = 100 / questionSize;
         Collections.shuffle(list);
@@ -77,7 +79,7 @@ public class TestQuestionsActivity extends AppCompatActivity {
                         checkAnswer();
                     }
                     else{
-                        Toast.makeText(TestQuestionsActivity.this,"Chưa chọn đáp án",Toast.LENGTH_SHORT);
+                        Toast.makeText(TestQuestionsActivity.this,"Chưa chọn đáp án", Toast.LENGTH_SHORT);
                     }
                 }
                 else{
@@ -101,7 +103,7 @@ public class TestQuestionsActivity extends AppCompatActivity {
             rb2.setText(thiTracNghiem.getOption2());
             rb3.setText(thiTracNghiem.getOption3());
             questionCounter++;
-            textViewQuestionCount.setText("Câu hỏi :"+questionCounter+"/"+questionSize);
+            textViewQuestionCount.setText("Câu hỏi :" + questionCounter + "/" + questionSize);
             answered = false;
             buttonNext.setText("Xác Nhận");
 
@@ -113,17 +115,20 @@ public class TestQuestionsActivity extends AppCompatActivity {
         }
     }
 
-    private void startCountDown() {
-        countDownTimer = new CountDownTimer(timeLeftInMillis,1000) {
+    private void startCountDown()
+    {
+        countDownTimer = new CountDownTimer(timeLeftInMillis,1000)
+        {
             @Override
-            public void onTick(long l) {
+            public void onTick(long l)
+            {
                 timeLeftInMillis = l;
-
                 updateCountDownText();
             }
 
             @Override
-            public void onFinish() {
+            public void onFinish()
+            {
                 timeLeftInMillis = 0;
                 updateCountDownText();
                 checkAnswer();
@@ -131,18 +136,20 @@ public class TestQuestionsActivity extends AppCompatActivity {
         }.start();
     }
 
-    private void checkAnswer() {
+    private void checkAnswer()
+    {
         answered = true;
         RadioButton rbSelected = findViewById(rbGroup.getCheckedRadioButtonId());
         int answer = rbGroup.indexOfChild(rbSelected)+1;
         if(answer == thiTracNghiem.getAnswer()){
-            Score = (float) (Score + ScorePerQues);
+            Score = Score + ScorePerQues;
             textViewScore.setText("Điểm : " + Score);
         }
         showSolution();
     }
 
-    private void showSolution() {
+    private void showSolution()
+    {
         rb1.setTextColor(getColor(R.color.false_answer));
         rb2.setTextColor(getColor(R.color.false_answer));
         rb3.setTextColor(getColor(R.color.false_answer));
@@ -157,7 +164,8 @@ public class TestQuestionsActivity extends AppCompatActivity {
                 rb3.setTextColor(getColor(R.color.true_answer));
                 break;
         }
-        if(questionCounter<questionSize){
+        if(questionCounter<questionSize)
+        {
             buttonNext.setText("Câu tiếp");
         }
         else{
@@ -178,19 +186,9 @@ public class TestQuestionsActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        count++;
-        if(count>=1){
-            finishQuestion();
-        }
-        count=0;
-    }
-
     private void finishQuestion() {
-        Intent intent = new Intent();
-        intent.putExtra("score",Score);
-        setResult(RESULT_OK, intent);
+        ScoreTestHolder.score = Score;
+        ScoreTestHolder.id = categoryID;
         finish();
     }
 

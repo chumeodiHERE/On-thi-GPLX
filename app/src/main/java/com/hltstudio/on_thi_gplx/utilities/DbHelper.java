@@ -260,17 +260,18 @@ public class DbHelper
         closeDB(db);
     }
 
-    public List<Topics> getDataCategory()
+    public ArrayList<Topics> getDataCategory()
     {
         SQLiteDatabase db = openDB();
-        List<Topics> list = new ArrayList<>();
+        ArrayList<Topics> list = new ArrayList<>();
         String sql = "Select * from TOPICS";
         Cursor csr = db.rawQuery(sql,null);
         if(csr.moveToFirst()){
             do{
                 int id = csr.getInt(0);
                 String name = csr.getString(1);
-                list.add(new Topics(id,name));
+                String ispass = csr.getString(2);
+                list.add(new Topics(id, name, ispass));
             }while (csr.moveToNext());
         }
         closeDB(db);
@@ -299,5 +300,18 @@ public class DbHelper
         }
         closeDB(db);
         return arr;
+    }
+
+    public void setFalseIsPassTopic(int ID)
+    {
+        SQLiteDatabase db = openDB();
+        db.execSQL("Update TOPICS Set ISPASS = 'false' where ID = " + ID);
+        closeDB(db);
+    }
+    public void setTrueIsPassTopic(int ID)
+    {
+        SQLiteDatabase db = openDB();
+        db.execSQL("Update TOPICS Set ISPASS = 'true' where ID = " + ID);
+        closeDB(db);
     }
 }
