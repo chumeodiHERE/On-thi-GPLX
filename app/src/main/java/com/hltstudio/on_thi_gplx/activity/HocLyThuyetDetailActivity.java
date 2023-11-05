@@ -59,42 +59,34 @@ public class HocLyThuyetDetailActivity extends AppCompatActivity
         questionArrayList = dbHelper.getQuestionWithGQId(idgroup);
 
         loadQuestion(index);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-    }
-
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item)
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
         {
-            switch (item.getItemId()) {
-                case R.id.previous_ques:
-                    if(index == 0) {
-                        index = questionArrayList.size() -1;
-                        loadQuestion(index);
-                    } else {
-                        index--;
-                        loadQuestion(index);
-                    }
-                    return true;
-                case R.id.next_ques:
-                    if(index == questionArrayList.size() - 1) {
-                        index = 0;
-                        loadQuestion(index);
-                    } else {
-                        index++;
-                        loadQuestion(index);
-                    }
-                    return true;
-                case R.id.home_screen:
-                    Intent intent = new Intent(HocLyThuyetDetailActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    return true;
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.previous_ques:
+                        if(index == 0) {
+                            index = questionArrayList.size() -1;
+                            loadQuestion(index);
+                        } else {
+                            index--;
+                            loadQuestion(index);
+                        }
+                        return true;
+                    case R.id.next_ques:
+                        if(index == questionArrayList.size() - 1) {
+                            index = 0;
+                            loadQuestion(index);
+                        } else {
+                            index++;
+                            loadQuestion(index);
+                        }
+                        return true;
+                }
+                return false;
             }
-            return false;
-        }
-    };
+        });
+    }
 
     private void loadQuestion(int i)
     {
@@ -130,7 +122,7 @@ public class HocLyThuyetDetailActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Answer answer = answerArrayList.get(position);
-                int idqes =answer.getQUESTIONID();
+                int idqes = answer.getQUESTIONID();
                 int idanw = answer.getID();
                 if(answer.getISCHOOSE().equals("true"))
                 {

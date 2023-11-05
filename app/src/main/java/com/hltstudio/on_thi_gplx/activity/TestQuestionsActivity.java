@@ -69,6 +69,7 @@ public class TestQuestionsActivity extends AppCompatActivity
         ScorePerQues = 100 / questionSize;
         Collections.shuffle(list);
 
+        startCountDown();
         showNextQuestion();
 
         buttonNext.setOnClickListener(new View.OnClickListener() {
@@ -106,9 +107,6 @@ public class TestQuestionsActivity extends AppCompatActivity
             textViewQuestionCount.setText("Câu hỏi :" + questionCounter + "/" + questionSize);
             answered = false;
             buttonNext.setText("Xác Nhận");
-
-            timeLeftInMillis = 30000;
-            startCountDown();
         }
         else{
             finishQuestion();
@@ -129,9 +127,7 @@ public class TestQuestionsActivity extends AppCompatActivity
             @Override
             public void onFinish()
             {
-                timeLeftInMillis = 0;
-                updateCountDownText();
-                checkAnswer();
+                finishQuestion();
             }
         }.start();
     }
@@ -171,7 +167,6 @@ public class TestQuestionsActivity extends AppCompatActivity
         else{
             buttonNext.setText("Hoàn Thành");
         }
-        countDownTimer.cancel();
     }
 
     private void updateCountDownText() {
@@ -179,7 +174,7 @@ public class TestQuestionsActivity extends AppCompatActivity
         int seconds = (int)((timeLeftInMillis/1000)%60);
         String timeFormatted = String.format(Locale.getDefault(),"%02d:%02d",minutes,seconds);
         textViewCountDown.setText(timeFormatted);
-        if(timeLeftInMillis < 10000){
+        if(timeLeftInMillis < 300000){
             textViewCountDown.setTextColor(Color.RED);
         }else{
             textViewCountDown.setTextColor(Color.BLACK);
@@ -189,6 +184,7 @@ public class TestQuestionsActivity extends AppCompatActivity
     private void finishQuestion() {
         ScoreTestHolder.score = Score;
         ScoreTestHolder.id = categoryID;
+        countDownTimer.cancel();
         finish();
     }
 
@@ -205,5 +201,6 @@ public class TestQuestionsActivity extends AppCompatActivity
         rb3 = findViewById(R.id.radio_button3);
 
         buttonNext = findViewById(R.id.button_confirm_next);
+        timeLeftInMillis = 1200000;
     }
 }
