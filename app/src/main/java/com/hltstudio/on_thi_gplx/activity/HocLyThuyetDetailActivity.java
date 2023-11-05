@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -39,6 +40,7 @@ public class HocLyThuyetDetailActivity extends AppCompatActivity
     ImageView img_question;
     imageConverter converter;
     BottomNavigationView navigation;
+    SharedPreferences sharedPreferences;
     int index = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -55,6 +57,7 @@ public class HocLyThuyetDetailActivity extends AppCompatActivity
         setTitle(groupName);
         int idgroup = it.getIntExtra("IDGroup", 0);
 
+        index = loadActivity(idgroup);
 
         questionArrayList = dbHelper.getQuestionWithGQId(idgroup);
 
@@ -86,6 +89,23 @@ public class HocLyThuyetDetailActivity extends AppCompatActivity
                 return false;
             }
         });
+    }
+
+    private int loadActivity(int idgr) {
+        sharedPreferences = getSharedPreferences("Shard", MODE_PRIVATE);
+        if(idgr == 1)
+            return sharedPreferences.getInt("id1", 0);
+        if(idgr == 2)
+            return sharedPreferences.getInt("id2", 0);
+        if(idgr == 3)
+            return sharedPreferences.getInt("id3", 0);
+        if(idgr == 5)
+            return sharedPreferences.getInt("id5", 0);
+        if(idgr == 6)
+            return sharedPreferences.getInt("id6", 0);
+        if(idgr == 8)
+            return sharedPreferences.getInt("id8", 0);
+        return 0;
     }
 
     private void loadQuestion(int i)
@@ -174,5 +194,28 @@ public class HocLyThuyetDetailActivity extends AppCompatActivity
         finish();
         overridePendingTransition(R.anim.slide_back_in, R.anim.slide_back);
         return true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        sharedPreferences = getSharedPreferences("Shard", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Intent it = getIntent();
+        int idgroup = it.getIntExtra("IDGroup", 0);
+        if(idgroup == 1)
+            editor.putInt("id1", index);
+        if(idgroup == 2)
+            editor.putInt("id2", index);
+        if(idgroup == 3)
+            editor.putInt("id3", index);
+        if(idgroup == 5)
+            editor.putInt("id5", index);
+        if(idgroup == 6)
+            editor.putInt("id6", index);
+        if(idgroup == 8)
+            editor.putInt("id8", index);
+
+        editor.apply();
     }
 }
